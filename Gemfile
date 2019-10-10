@@ -7,5 +7,4 @@ gem 'pry'
 gem 'require_all'
 gem 'sqlite3'
 
-
 # gem "rails"
