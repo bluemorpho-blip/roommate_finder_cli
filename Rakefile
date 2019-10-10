@@ -15,7 +15,7 @@ task :scrape_rooms do
   nyc_scraper.call
   chicago_scraper = RoomScraper.new('https://chicago.craigslist.org/search/roo')
   chicago_scraper.call
-  london_scraper = RoomScraper.new('https://london.craigslist.org/search/roo')
-  london_scraper.call
+  # london_scraper = RoomScraper.new('https://london.craigslist.org/search/roo')
+  # london_scraper.call
   # after this method call I should be able to say Room.all and have rooms there.
 end

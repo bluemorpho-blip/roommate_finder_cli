@@ -1,5 +1,7 @@
 class Room
-  attr_accessor :title, :date_created, :price, :url
+  attr_accessor :id, :title, :date_created, :price, :url
+
+  @@all = []
 
   def self.create_from_hash(hash)
     new_from_hash(hash).save
@@ -8,14 +10,52 @@ class Room
   def self.new_from_hash(hash)
     room = self.new
     room.title = hash[:title]
-    room.date_created = hash[:date_createde]
+    room.date_created = hash[:date_created]
     room.price = hash[:price]
     room.url = hash[:url]
+
     room
+  end
+
+  def self.by_price(order)
+    sql = <<-SQL
+      SELECT * FROM rooms
+      ORDER BY price #{order}
+    SQL
+
+    rows = DB[:connection].execute(sql)
+    self.new_from_rows(rows)
+  end
+
+
+  # Room.by_price('ASC') #=> lowest price row first
+  # Room.by_price('DESC') #=> highest price row first
+  def self.new_from_rows(rows)
+    rows.collect do |row|
+      self.new_from_db(rows)
+    end
+  end
+
+  def self.new_from_db(row)
+    self.new.tap do |room|
+      room.id = row[0]
+      room.title = row[1]
+      room.date_created = row[2]
+      room.price = row[3]
+      room.url = [4]
+    end
   end
 
   def save
     insert
+  end
+
+  def self.all
+    sql = <<-SQL
+      SELECT * FROM rooms
+    SQL
+    rows = DB[:connection].execute(sql)
+      self.new_from_rows(rows)
   end
 
   def insert
@@ -37,6 +77,6 @@ class Room
       )
       SQL
       DB[:connection].execute(sql)
-    end
+  end
 
 end
