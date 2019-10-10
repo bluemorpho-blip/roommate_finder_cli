@@ -17,7 +17,7 @@ class Room
     room
   end
 
-  def self.by_price(order)
+  def self.by_price(order = "ASC")
     sql = <<-SQL
       SELECT * FROM rooms
       ORDER BY price #{order}
