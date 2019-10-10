@@ -10,8 +10,9 @@ end
 
 task :scrape_rooms do
 # instantiate a scraper and then have it find new rooms
+  Room.create_table
   nyc_scraper = RoomScraper.new('https://newyork.craigslist.org/search/roo')
-  # nyc_scraper.call
+  nyc_scraper.call
   # chicago_scraper = RoomScraper.new('https://chicago.craigslist.org/search/roo')
   # chicago_scraper.call
   # after this method call I should be able to say Room.all and have rooms there.
