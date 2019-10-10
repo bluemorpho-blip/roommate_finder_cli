@@ -4,5 +4,6 @@ def reload
   load.all './lib'
 end
 
-task :console
+task :console do
   pry.start
+end
